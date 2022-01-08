@@ -31,8 +31,8 @@ public class BuildForm extends JFrame {
     public JTextArea TextArea;
     private JScrollPane sc;
     private JToolBar ToolBar;
-    private JButton newButton, openButton, saveButton, findButton, aboutButton, printButton;
-    public JFileChooser fc;
+    private JButton newButton, openButton, saveButton, findButton, aboutButton, printButton, colorButton, backgroundColorButton;
+    public JFileChooser FileChooser;
     public File theFile;
 
     // end
@@ -49,14 +49,18 @@ public class BuildForm extends JFrame {
         printButton();
         AddStatus();
         AddFonts();
+        AddColorPicker();
+        AddBackgroundColorPicker();
         Finalize();
         FailSafe();
     }
 
+    /**
+     * Function to create the base of our Form , initializing all the components
+     */
     private void Base() {
         Panel = new JPanel(new BorderLayout());
         TextArea = new JTextArea(30, 100);
-        // TextArea.setMargin(new Insets(3, 3, 3, 3));
         TextArea.setFont(new Font("Century Gothic", Font.PLAIN, 12));
         TextArea.setTabSize(2);
         TextArea.setLineWrap(true);
@@ -69,6 +73,10 @@ public class BuildForm extends JFrame {
         ToolBar.setFloatable(false);
     }
 
+    /**
+     * Function to create the print buttons and place them to the toolbar,
+     * ActionListener handling is also done within this function
+     */
     private void printButton() {
         printButton = new JButton("print");
         printButton.setToolTipText("Print the file...");
@@ -86,6 +94,7 @@ public class BuildForm extends JFrame {
 
     /**
      * Function to create file handling buttons in the toolbar
+     * ActionListener handling is also done within this function
      */
     private void FileButtons() {
         // initialize buttons
@@ -128,6 +137,11 @@ public class BuildForm extends JFrame {
         });
     }
 
+    /**
+     * Function for creating the buttons for displaying the super deluxe ultra
+     * FIND_V2 child component
+     * ActionListener handling is also done within this function
+     */
     private void FindButtons() {
         findButton = new JButton("find");
 
@@ -149,6 +163,10 @@ public class BuildForm extends JFrame {
 
     }
 
+    /**
+     * Function for creating the about button and place it to the toolbar,
+     * ActionListener handling is also done within this function
+     */
     private void AboutButton() {
         aboutButton = new JButton("about");
         aboutButton.addActionListener(new ActionListener() {
@@ -163,6 +181,10 @@ public class BuildForm extends JFrame {
         ToolBar.add(aboutButton);
     }
 
+    /**
+     * Function for creating the status bar and place it to the bottom of the form
+     * ActionListener handling is also done within this function (for the textarea)
+     */
     private void AddStatus() {
         JLabel statusLabel = new JLabel("...");
         statusLabel.setBorder(new EmptyBorder(4, 4, 4, 4));
@@ -209,6 +231,11 @@ public class BuildForm extends JFrame {
 
     }
 
+    /**
+     * Helper function for updating the status bar
+     * 
+     * @return the status bar text
+     */
     private String UpdateStatus() {
         // Lines & chars
         int countWord = 0;
@@ -239,6 +266,11 @@ public class BuildForm extends JFrame {
         return "Lines: " + lines + " Chars: " + characterCount;
     }
 
+    /**
+     * Function for creating the menu bar and place it to the top of the form,
+     * the menu bar will be used for Font handling
+     * ActionListener handling is also done within this function
+     */
     private void AddFonts() {
         fontType = new JComboBox();
 
@@ -283,6 +315,47 @@ public class BuildForm extends JFrame {
         });
     }
 
+    /**
+     * Function for creating the color picker and place it to the toolbar,
+     * ActionListener handling is also done within this function
+     */
+    private void AddColorPicker() {
+        colorButton = new JButton("text color");
+        colorButton.setToolTipText("Text Color");
+        ToolBar.add(colorButton);
+
+        colorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Color color = JColorChooser.showDialog(null, "Choose a Color", Color.BLACK);
+                TextArea.setForeground(color);
+            }
+        });
+    }
+
+    /**
+     * Function to add background color picker
+     * ActionListener handling is also done within this function
+     */
+    private void AddBackgroundColorPicker() {
+        backgroundColorButton = new JButton("background color");
+        backgroundColorButton.setToolTipText("Background Color");
+        ToolBar.add(backgroundColorButton);
+
+        backgroundColorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Color color = JColorChooser.showDialog(null, "Choose a Color", Color.WHITE);
+                TextArea.setBackground(color);
+            }
+        });
+    }
+
+    /**
+     * Finalize function is called in order to pack the form and pretty much render
+     * it to the user,
+     * we will also set the look and feel
+     */
     private void Finalize() {
         Panel.add(ToolBar, BorderLayout.NORTH);
         add(Panel);
@@ -320,7 +393,7 @@ public class BuildForm extends JFrame {
              * the file
              */
             if (option == JFileChooser.APPROVE_OPTION) {
-               // clear the TextArea before applying the file contents
+                // clear the TextArea before applying the file contents
                 TextArea.setText("");
                 try {
                     File openFile = open.getSelectedFile();
@@ -343,6 +416,9 @@ public class BuildForm extends JFrame {
         }
     }
 
+    /**
+     * Function to handle the saving of the file
+     */
     private void saveFile() {
         // Open a file chooser
         JFileChooser fileChoose = new JFileChooser();
@@ -377,15 +453,15 @@ public class BuildForm extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (TextArea.getText().isEmpty()) { //if textarea is empty then exit without asking
+                if (TextArea.getText().isEmpty()) { // if textarea is empty then exit without asking
                     System.exit(0);
                 } else {
                     int result = JOptionPane.showConfirmDialog(null, "Do you want to save before exiting?", "Save",
                             JOptionPane.YES_NO_OPTION);
-                    if (result == JOptionPane.YES_OPTION) { //if user clicks yes then save the file
+                    if (result == JOptionPane.YES_OPTION) { // if user clicks yes then save the file
                         saveFile();
                         System.exit(0);
-                    } else { //if user clicks no then exit without saving
+                    } else { // if user clicks no then exit without saving
                         System.exit(0);
                     }
                 }
