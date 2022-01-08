@@ -1,3 +1,8 @@
+/**
+ * @author Petrakis Georgios , tp4768
+ * 
+ * Find_V2 is the second generation find and ReplaceButton window responsible for all related operations
+ */
 package jre.Utilities;
 
 import javax.swing.*;
@@ -9,23 +14,27 @@ public class Find_V2 extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
     int startIndex = 0;
     int select_start = -1;
-    JLabel lab1, lab2;
-    JTextField textF, textR;
-    JButton findBtn, findNext, replace, replaceAll, cancel;
-    private JTextArea txt;
+    JLabel label_1, label_2;
+    JTextField FindTextField, ReplaceTextField;
+    JButton findBtn, findNext, ReplaceButton, ReplaceAllButton, CancelButton;
+    private JTextArea TextArea;
 
+    /**
+     * Constructor , responsible for creating the window and initializing all the components
+     * @param text The text area, to be passed by the parent window
+     */
     public Find_V2(JTextArea text) {
-        this.txt = text;
+        this.TextArea = text;
 
-        lab1 = new JLabel("Find:");
-        lab2 = new JLabel("Replace:");
-        textF = new JTextField(30);
-        textR = new JTextField(30);
+        label_1 = new JLabel("Find:");
+        label_2 = new JLabel("Replace:");
+        FindTextField = new JTextField(30);
+        ReplaceTextField = new JTextField(30);
         findBtn = new JButton("Find");
         findNext = new JButton("Find Next");
-        replace = new JButton("Replace");
-        replaceAll = new JButton("Replace All");
-        cancel = new JButton("Cancel");
+        ReplaceButton = new JButton("Replace");
+        ReplaceAllButton = new JButton("Replace All");
+        CancelButton = new JButton("cancel");
 
         // Set Layout NULL
         setLayout(null);
@@ -35,14 +44,14 @@ public class Find_V2 extends JFrame implements ActionListener {
         int labHeight = 20;
 
         // Adding labels
-        lab1.setBounds(10, 10, labWidth, labHeight);
-        add(lab1);
-        textF.setBounds(20 + labWidth, 10, 120, 20);
-        add(textF);
-        lab2.setBounds(10, 10 + labHeight + 10, labWidth, labHeight);
-        add(lab2);
-        textR.setBounds(20 + labWidth, 10 + labHeight + 10, 120, 20);
-        add(textR);
+        label_1.setBounds(10, 10, labWidth, labHeight);
+        add(label_1);
+        FindTextField.setBounds(20 + labWidth, 10, 120, 20);
+        add(FindTextField);
+        label_2.setBounds(10, 10 + labHeight + 10, labWidth, labHeight);
+        add(label_2);
+        ReplaceTextField.setBounds(20 + labWidth, 10 + labHeight + 10, 120, 20);
+        add(ReplaceTextField);
 
         // Adding buttons
         findBtn.setBounds(225, 6, 115, 20);
@@ -53,17 +62,17 @@ public class Find_V2 extends JFrame implements ActionListener {
         add(findNext);
         findNext.addActionListener(this);
 
-        replace.setBounds(225, 50, 115, 20);
-        add(replace);
-        replace.addActionListener(this);
+        ReplaceButton.setBounds(225, 50, 115, 20);
+        add(ReplaceButton);
+        ReplaceButton.addActionListener(this);
 
-        replaceAll.setBounds(225, 72, 115, 20);
-        add(replaceAll);
-        replaceAll.addActionListener(this);
+        ReplaceAllButton.setBounds(225, 72, 115, 20);
+        add(ReplaceAllButton);
+        ReplaceAllButton.addActionListener(this);
 
-        cancel.setBounds(225, 94, 115, 20);
-        add(cancel);
-        cancel.addActionListener(this);
+        CancelButton.setBounds(225, 94, 115, 20);
+        add(CancelButton);
+        CancelButton.addActionListener(this);
 
         // Set the width and height of the window
         int width = 360;
@@ -80,59 +89,59 @@ public class Find_V2 extends JFrame implements ActionListener {
     }
 
     public void find() {
-        select_start = txt.getText().toLowerCase().indexOf(textF.getText().toLowerCase());
+        select_start = TextArea.getText().toLowerCase().indexOf(FindTextField.getText().toLowerCase());
         if (select_start == -1) {
             startIndex = 0;
-            JOptionPane.showMessageDialog(null, "Could not find \"" + textF.getText() + "\"!");
+            JOptionPane.showMessageDialog(null, "Could not find \"" + FindTextField.getText() + "\"!");
             return;
         }
-        if (select_start == txt.getText().toLowerCase().lastIndexOf(textF.getText().toLowerCase())) {
+        if (select_start == TextArea.getText().toLowerCase().lastIndexOf(FindTextField.getText().toLowerCase())) {
             startIndex = 0;
         }
-        int select_end = select_start + textF.getText().length();
-        txt.requestFocus();
-        txt.select(select_start, select_end);
+        int select_end = select_start + FindTextField.getText().length();
+        TextArea.requestFocus();
+        TextArea.select(select_start, select_end);
     }
 
     public void findNext() {
-        String selection = txt.getSelectedText();
+        String selection = TextArea.getSelectedText();
         try {
             selection.equals("");
         } catch (NullPointerException e) {
-            selection = textF.getText();
+            selection = FindTextField.getText();
             try {
                 selection.equals("");
             } catch (NullPointerException e2) {
                 selection = JOptionPane.showInputDialog("Find:");
-                textF.setText(selection);
+                FindTextField.setText(selection);
             }
         }
         try {
-            int select_start = txt.getText().toLowerCase().indexOf(selection.toLowerCase(), startIndex);
+            int select_start = TextArea.getText().toLowerCase().indexOf(selection.toLowerCase(), startIndex);
             int select_end = select_start + selection.length();
-            txt.requestFocus();
-            txt.select(select_start, select_end);
+            TextArea.requestFocus();
+            TextArea.select(select_start, select_end);
             startIndex = select_end + 1;
 
-            if (select_start == txt.getText().toLowerCase().lastIndexOf(selection.toLowerCase())) {
+            if (select_start == TextArea.getText().toLowerCase().lastIndexOf(selection.toLowerCase())) {
                 startIndex = 0;
             }
         } catch (NullPointerException e) {
         }
     }
 
-    public void replace() {
+    public void ReplaceButton() {
         try {
             find();
             if (select_start != -1)
-                txt.replaceSelection(textR.getText());
+                TextArea.replaceSelection(ReplaceTextField.getText());
         } catch (NullPointerException e) {
             System.out.print("Null Pointer Exception: " + e);
         }
     }
 
-    public void replaceAll() {
-        txt.setText(txt.getText().toLowerCase().replaceAll(textF.getText().toLowerCase(), textR.getText()));
+    public void ReplaceAllButton() {
+        TextArea.setText(TextArea.getText().toLowerCase().replace(FindTextField.getText().toLowerCase(), ReplaceTextField.getText()));
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -140,11 +149,11 @@ public class Find_V2 extends JFrame implements ActionListener {
             find();
         } else if (e.getSource() == findNext) {
             findNext();
-        } else if (e.getSource() == replace) {
-            replace();
-        } else if (e.getSource() == replaceAll) {
-            replaceAll();
-        } else if (e.getSource() == cancel) {
+        } else if (e.getSource() == ReplaceButton) {
+            ReplaceButton();
+        } else if (e.getSource() == ReplaceAllButton) {
+            ReplaceAllButton();
+        } else if (e.getSource() == CancelButton) {
             this.setVisible(false);
         }
     }
