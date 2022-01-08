@@ -323,7 +323,7 @@ public class BuildForm extends JFrame {
                 Clear.clear(TextArea); // clear the TextArea before applying the file contents
                 try {
                     File openFile = open.getSelectedFile();
-                    setTitle(openFile.getName() + " | " + "MyEditor3");
+                    setTitle(openFile.getName() + " | " + "JavaTextEditor");
                     Scanner scan = new Scanner(new FileReader(openFile.getPath()));
                     while (scan.hasNext()) {
                         TextArea.append(scan.nextLine() + "\n");
@@ -336,7 +336,7 @@ public class BuildForm extends JFrame {
         } else if (type == "save") {
             saveFile();
         } else {
-            this.setTitle("MyEditor");
+            this.setTitle("JavaTextEditor");
             TextArea.setText(null);
             TextArea.requestFocus();
         }
@@ -355,7 +355,7 @@ public class BuildForm extends JFrame {
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
                 File openFile = fileChoose.getSelectedFile();
-                setTitle(openFile.getName() + " | " + "MyEditor3");
+                setTitle(openFile.getName() + " | " + "JavaTextEditor");
 
                 BufferedWriter out = new BufferedWriter(new FileWriter(openFile.getPath()));
                 out.write(TextArea.getText());
