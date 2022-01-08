@@ -1,5 +1,7 @@
-/*
-    Core class of Swing Builder
+/**
+ * @author Petrakis Georgios , tp4768
+ * 
+ * Main class for creating the TextEditor Form and building the toolbar
  */
 package jre.Utilities;
 
@@ -24,7 +26,6 @@ public class BuildForm extends JFrame{
     
 
     About AboutManager = new About();
-  //  File_M FileManager = new File_M();
     
     private boolean edit = false;
     private JComboBox fontSize;
@@ -90,21 +91,25 @@ public class BuildForm extends JFrame{
         });
         
     }
+    /**
+     * Function to create file handling buttons in the toolbar
+     */
     private void FileButtons()
     {
+        //initialize buttons
         newButton = new JButton("new");
         openButton = new JButton("open");
         saveButton = new JButton("save");
-        
+        //set tooltips
         newButton.setToolTipText("New file...");
         openButton.setToolTipText("Open a file...");
         saveButton.setToolTipText("Save a file...");
        
-        
+        //set icons
         newButton.setIcon(new ImageIcon(getClass().getResource("/images/New16.png")));
         openButton.setIcon(new ImageIcon(getClass().getResource("/images/Open16.gif")));
         saveButton.setIcon(new ImageIcon(getClass().getResource("/images/Save16.gif")));
-        
+        //add them to the toolbar
         tb.add(newButton);
         tb.add(openButton);
         tb.add(saveButton);
@@ -308,7 +313,11 @@ public class BuildForm extends JFrame{
             
     }
     
-    private void FileManager(String type)   //h8ela na to kanw se 3exwristo class alla ka8e prospa8ia mou apetyxe... :(
+    /**
+     * Function to handle the FileManager
+     * @param type Type of operation
+     */
+    private void FileManager(String type) 
     {
        if(type == "open") { 
         JFileChooser open = new JFileChooser(); 
