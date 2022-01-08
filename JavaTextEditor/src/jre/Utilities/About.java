@@ -1,5 +1,5 @@
-/*
-            For the about button
+/**
+ * About modal , displays the about information modal
  */
 package jre.Utilities;
 
@@ -13,6 +13,6 @@ public class About {
         //doAbout();
     }
         public void doAbout() {
-        JOptionPane.showMessageDialog(null, "TEI Java Editor\nSummer Semester 2019", "About", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "TEI Java Editor\ntp4768", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 }
