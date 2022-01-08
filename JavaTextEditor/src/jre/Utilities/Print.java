@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Petrakis Georgios , tp4768
+ * 
+ * Class responsible for handling a print request from the user
+ * 
  */
 package jre.Utilities;
 
@@ -16,7 +17,10 @@ import javax.swing.JTextArea;
 
 
 public class Print extends JFrame {
-
+    /**
+     * Constructor
+     * @param text The textarea passed by the parent component
+     */
     public Print(JTextArea text) {
         PrinterJob pj = PrinterJob.getPrinterJob();
         pj.setJobName(" Print Component ");
