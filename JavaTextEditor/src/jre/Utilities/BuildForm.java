@@ -11,8 +11,6 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.Scanner;
 import javax.swing.UIManager.LookAndFeelInfo;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -30,10 +28,10 @@ public class BuildForm extends JFrame{
     private boolean edit = false;
     private JComboBox fontSize;
     private  JComboBox fontType;
-    private JPanel p;
-    public JTextArea ta;
+    private JPanel Panel;
+    public JTextArea TextArea;
     private JScrollPane sc;
-    private JToolBar tb;
+    private JToolBar ToolBar;
     private JButton newButton, openButton, saveButton, findButton, aboutButton,printButton;
     public JFileChooser fc;
     public File theFile;
@@ -45,7 +43,6 @@ public class BuildForm extends JFrame{
     
     public BuildForm()
     {
-        System.out.println("test");
         this.setVisible(true);
     }
     public void Build()
@@ -62,31 +59,31 @@ public class BuildForm extends JFrame{
     }
     private void Base()
     {
-        p = new JPanel(new BorderLayout());
-        ta = new JTextArea(10, 60); 
-        //ta.setMargin(new Insets(3, 3, 3, 3)); 
-        ta.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-        ta.setTabSize(2);
-        ta.setLineWrap(true);
-        ta.setWrapStyleWord(true);
+        Panel = new JPanel(new BorderLayout());
+        TextArea = new JTextArea(10, 60); 
+        //TextArea.setMargin(new Insets(3, 3, 3, 3)); 
+        TextArea.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+        TextArea.setTabSize(2);
+        TextArea.setLineWrap(true);
+        TextArea.setWrapStyleWord(true);
 
-        sc = new JScrollPane(ta); 
-        p.add(sc);
+        sc = new JScrollPane(TextArea); 
+        Panel.add(sc);
 
-        tb = new JToolBar();
-        tb.setFloatable(false); 
+        ToolBar = new JToolBar();
+        ToolBar.setFloatable(false); 
     }
     private void printButton()
     {
         printButton = new JButton("print");
         printButton.setToolTipText("Print the file...");
         printButton.setIcon(new ImageIcon(getClass().getResource("/images/Print16.png")));
-        tb.add(printButton);
+        ToolBar.add(printButton);
         
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Print(ta);
+                new Print(TextArea);
             }
         });
         
@@ -110,9 +107,9 @@ public class BuildForm extends JFrame{
         openButton.setIcon(new ImageIcon(getClass().getResource("/images/Open16.gif")));
         saveButton.setIcon(new ImageIcon(getClass().getResource("/images/Save16.gif")));
         //add them to the toolbar
-        tb.add(newButton);
-        tb.add(openButton);
-        tb.add(saveButton);
+        ToolBar.add(newButton);
+        ToolBar.add(openButton);
+        ToolBar.add(saveButton);
         
         //Action listeners
         
@@ -148,12 +145,12 @@ public class BuildForm extends JFrame{
         findButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Find_V2(ta);
+                new Find_V2(TextArea);
                 UpdateStatus();
             }
         });
         
-        tb.add(findButton);
+        ToolBar.add(findButton);
 
     }
     private void AboutButton()
@@ -168,19 +165,19 @@ public class BuildForm extends JFrame{
         aboutButton.setToolTipText("About...");
         aboutButton.setIcon(new ImageIcon(getClass().getResource("/images/Info16.png")));
         
-        tb.add(aboutButton);
+        ToolBar.add(aboutButton);
     }
     private void AddStatus()
     {
       JLabel statusLabel = new JLabel("...");
       statusLabel.setBorder(new EmptyBorder(4, 4, 4, 4));
       statusLabel.setHorizontalAlignment(JLabel.LEADING);
-      p.add(statusLabel, BorderLayout.SOUTH);
+      Panel.add(statusLabel, BorderLayout.SOUTH);
       
       // leitourgikotita   ... I know that its bad. But it works. Sorry. :(
       
       //Document Listener
-      ta.getDocument().addDocumentListener(new DocumentListener() {
+      TextArea.getDocument().addDocumentListener(new DocumentListener() {
 
         @Override
         public void removeUpdate(DocumentEvent e) {
@@ -199,10 +196,10 @@ public class BuildForm extends JFrame{
     });
       
         //Caret Listener
-                ta.addCaretListener(new CaretListener() {
+                TextArea.addCaretListener(new CaretListener() {
          public void caretUpdate(CaretEvent ce) {
-            int pos = ta.getCaretPosition();
-            Element map = ta.getDocument().getDefaultRootElement();
+            int pos = TextArea.getCaretPosition();
+            Element map = TextArea.getDocument().getDefaultRootElement();
             int row = map.getElementIndex(pos);
             Element lineElem = map.getElement(row);
             int col = pos - lineElem.getStartOffset();
@@ -225,7 +222,7 @@ public class BuildForm extends JFrame{
         int whitespaceCount = 0; 
         int lines = 0;
         
-        for (String line : ta.getText().split("\\n"))
+        for (String line : TextArea.getText().split("\\n"))
         {
             lines++;
             characterCount += line.length(); 
@@ -258,15 +255,15 @@ public class BuildForm extends JFrame{
         }
         fontType.setMaximumSize(new Dimension(170, 30));
         fontType.setToolTipText("Font Type");
-        tb.add(fontType);
-        tb.addSeparator();
+        ToolBar.add(fontType);
+        ToolBar.addSeparator();
 
         fontType.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
 
-                String p = fontType.getSelectedItem().toString();
-                int s = ta.getFont().getSize();
-                ta.setFont(new Font(p, Font.PLAIN, s));
+                String Panel = fontType.getSelectedItem().toString();
+                int s = TextArea.getFont().getSize();
+                TextArea.setFont(new Font(Panel, Font.PLAIN, s));
             }
         });
 
@@ -277,24 +274,24 @@ public class BuildForm extends JFrame{
         }
         fontSize.setMaximumSize(new Dimension(70, 30));
         fontSize.setToolTipText("Font Size");
-        tb.add(fontSize);
+        ToolBar.add(fontSize);
 
         fontSize.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 String sizeValue = fontSize.getSelectedItem().toString();
                 int sizeOfFont = Integer.parseInt(sizeValue);
-                String fontFamily = ta.getFont().getFamily();
+                String fontFamily = TextArea.getFont().getFamily();
 
                 Font font1 = new Font(fontFamily, Font.PLAIN, sizeOfFont);
-                ta.setFont(font1);
+                TextArea.setFont(font1);
             }
         });
     }
     
     private void Finalize()
     {
-        p.add(tb, BorderLayout.NORTH);
-        add(p);
+        Panel.add(ToolBar, BorderLayout.NORTH);
+        add(Panel);
         pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
@@ -329,13 +326,13 @@ public class BuildForm extends JFrame{
               * the file
               */
              if (option == JFileChooser.APPROVE_OPTION) {
-                 Clear.clear(ta); // clear the TextArea before applying the file contents
+                 Clear.clear(TextArea); // clear the TextArea before applying the file contents
                  try {
                      File openFile = open.getSelectedFile();
                      setTitle(openFile.getName() + " | " + "MyEditor3");
                      Scanner scan = new Scanner(new FileReader(openFile.getPath()));
                      while (scan.hasNext()) {
-                         ta.append(scan.nextLine() + "\n");
+                         TextArea.append(scan.nextLine() + "\n");
                      }
 
                  } catch (Exception ex) { 
@@ -350,8 +347,8 @@ public class BuildForm extends JFrame{
        else 
        {
         this.setTitle("MyEditor");
-        ta.setText(null);
-        ta.requestFocus();
+        TextArea.setText(null);
+        TextArea.requestFocus();
        }
     }
     private void saveFile() {
@@ -370,7 +367,7 @@ public class BuildForm extends JFrame{
                 setTitle(openFile.getName() + " | " + "MyEditor3");
 
                 BufferedWriter out = new BufferedWriter(new FileWriter(openFile.getPath()));
-                out.write(ta.getText());
+                out.write(TextArea.getText());
                 out.close();
                 edit = false;
             } catch (Exception ex) { // again, catch any exceptions and...
