@@ -60,7 +60,7 @@ public class BuildForm extends JFrame{
     private void Base()
     {
         Panel = new JPanel(new BorderLayout());
-        TextArea = new JTextArea(10, 60); 
+        TextArea = new JTextArea(30, 100); 
         //TextArea.setMargin(new Insets(3, 3, 3, 3)); 
         TextArea.setFont(new Font("Century Gothic", Font.PLAIN, 12));
         TextArea.setTabSize(2);
