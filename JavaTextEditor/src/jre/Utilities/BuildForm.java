@@ -320,7 +320,8 @@ public class BuildForm extends JFrame {
              * the file
              */
             if (option == JFileChooser.APPROVE_OPTION) {
-                Clear.clear(TextArea); // clear the TextArea before applying the file contents
+               // clear the TextArea before applying the file contents
+                TextArea.setText("");
                 try {
                     File openFile = open.getSelectedFile();
                     setTitle(openFile.getName() + " | " + "JavaTextEditor");
